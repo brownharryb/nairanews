@@ -1,5 +1,6 @@
 package com.bbh.daoimpl;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -15,6 +16,31 @@ import com.bbh.config.SpringRootConfig;
 
 abstract public class BaseDaoImpl {
 	
+	protected Object get(Class<?> c, int id) {
+		
+		Session session = null;
+		Transaction transaction = null;
+		Object obj = null;
+		try {
+			session = this.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			obj = session.get(c, id);
+			transaction.commit();
+		}catch(HibernateException e){
+			e.printStackTrace();
+			if(transaction != null) {
+				transaction.rollback();
+			}
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+		
+		return obj;
+		
+	}
+	
 	protected void save(Object obj) {	
 		Session session = null;
 		Transaction transaction = null;
@@ -28,7 +54,13 @@ abstract public class BaseDaoImpl {
 			if(transaction != null) {
 				transaction.rollback();
 			}
-		}finally {
+		}catch(Exception e) {
+			e.printStackTrace();
+			if(transaction != null) {
+				transaction.rollback();
+			}
+		}
+		finally {
 			if(session != null) {
 				session.close();
 			}

@@ -19,9 +19,9 @@ public class SpringRootConfig {
 	public BasicDataSource getDataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/nairanewsdb?useLegacyDatetimeCode=false&serverTimezone=UTC");
-		dataSource.setUsername("root");
-		dataSource.setPassword("");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/nairanewsdb?createDatabaseIfNotExist=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+		dataSource.setUsername("nairanewsuser");
+		dataSource.setPassword("password");
 		return dataSource;
 	}
 	

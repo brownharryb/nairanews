@@ -1,12 +1,12 @@
 package com.bbh.controller;
 
-import java.util.List;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bbh.daoimpl.NewsPaperDaoImpl;
+import com.bbh.daoimpl.NewsDaoImpl;
 import com.bbh.model.NewsPaper;
 
 @Controller
@@ -15,18 +15,17 @@ public class HomeController {
 	@RequestMapping("/home")
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView();
+		NewsPaper paper = new NewsPaper();
+		paper.setName("Vanguard");
+		paper.setUrl("https://www.vanguardngr.com/category/technology/");
+//		NewsPaperDaoImpl newsPaperDao = new NewsPaperDaoImpl();
+//		newsPaperDao.save(paper);
 		
 		
-		NewsPaper newsPaper = new NewsPaper();
-		newsPaper.setName("Vanguard");
-		newsPaper.setId(1);
-		new NewsPaperDaoImpl().save(newsPaper);
-//		
-//		List<NewsPaper> newsPapers = new NewsPaperDaoImpl().findAll();	
-//		
-//		
-//		mv.addObject("papers", newsPapers);
-//		new NewsPaperDaoImpl().delete(2);
+		NewsDaoImpl newsDao = new NewsDaoImpl();		
+		newsDao.fetchNewsFromInternet(paper);
+		
+		
 		mv.setViewName("index.jsp");
 		return mv;
 	}

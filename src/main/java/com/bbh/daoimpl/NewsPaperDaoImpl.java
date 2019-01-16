@@ -2,6 +2,8 @@ package com.bbh.daoimpl;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -30,6 +32,25 @@ public class NewsPaperDaoImpl extends BaseDaoImpl implements NewsPaperDao{
 	@Override
 	public List<NewsPaper> findAll() {
 		return (List<NewsPaper>) super.findAll(NewsPaper.class);
+	}
+
+	@Override
+	public NewsPaper get(int id) {
+		return (NewsPaper) super.get(NewsPaper.class, id);
+	}
+
+	@Override
+	public NewsPaper getFromName(String name) {
+		try {
+			String q = "from NewsPaper n where n.name=:name";
+			Query query = this.getSessionFactory().openSession().createQuery(q);
+			query.setParameter("name", name);
+			return (NewsPaper) query.getSingleResult();
+		}catch(NoResultException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
 }

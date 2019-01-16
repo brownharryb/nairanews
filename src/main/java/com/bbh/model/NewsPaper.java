@@ -14,7 +14,7 @@ public class NewsPaper {
 	@Id
 	@GeneratedValue
 	private int id;
-	private String name;
+	private String name, url;
 	
 	
 	public int getId() {
@@ -22,6 +22,12 @@ public class NewsPaper {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	public String getName() {
 		return name;
